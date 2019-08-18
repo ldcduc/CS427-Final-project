@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Track : MonoBehaviour
+public class Map : MonoBehaviour
 {
     [SerializeField] GameObject[] obstacles;
     [SerializeField] Vector2 numberOfObstacles;
@@ -72,6 +72,7 @@ public class Track : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            other.GetComponent<Player>().IncreaseSpeed();
             transform.position = new Vector3(0, 0, transform.position.z + 309 * 2);
             //GenerateMap();
             GenerateMap();

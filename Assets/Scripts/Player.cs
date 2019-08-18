@@ -29,7 +29,8 @@ public class Player : MonoBehaviour
     private bool invincible = false;
     static int blinkingValue;
     private UIManagement uiManagement;
-    private int fishBone; 
+    private int fishBone;
+    private float score;
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +49,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        score += Time.deltaTime * speed;
+        uiManagement.UpdateScore((int)score);
+
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             ChangeLane(-1);
@@ -156,7 +160,9 @@ public class Player : MonoBehaviour
             speed = 0;
             if (currentLife <= 0)
             {
-
+                speed = 0;
+                anim.SetBool("Dead", true);
+                uiManagement.gameOverPanel.SetActive(true);
             }
             else
             {
@@ -198,5 +204,12 @@ public class Player : MonoBehaviour
         }
         //Shader.SetGlobalFloat(blinkingValue, 0);
         invincible = false;
+    }
+
+    public void IncreaseSpeed()
+    {
+        speed *= 1.5f;
+        if (speed >= maxSpeed)
+            speed = maxSpeed;
     }
 }
