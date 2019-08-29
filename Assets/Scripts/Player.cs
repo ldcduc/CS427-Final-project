@@ -31,6 +31,14 @@ public class Player : MonoBehaviour
     private UIManagement uiManagement;
     private int fishBone;
     private float score;
+    private AudioSource jumpAudio;
+    private AudioSource hurtAudio;
+    private AudioSource deadAudio;
+    private AudioSource slideAudio;
+    private AudioSource buttonPressAudio;
+    private AudioSource fishBoneAudio;
+    private AudioSource powerUpSound;
+    AudioSource[] sounds;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +52,14 @@ public class Player : MonoBehaviour
         speed = minSpeed;
         blinkingValue = Shader.PropertyToID("_BlinkingValue");
         uiManagement = FindObjectOfType<UIManagement>();
+        sounds = GetComponents<AudioSource>();
+        jumpAudio = sounds[0];
+        hurtAudio = sounds[1];
+        deadAudio = sounds[2];
+        slideAudio = sounds[3];
+        buttonPressAudio = sounds[4];
+        fishBoneAudio = sounds[5];
+        powerUpSound = sounds[6];
     }
 
     // Update is called once per frame
@@ -54,10 +70,12 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
+            buttonPressAudio.Play();
             ChangeLane(-1);
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
+            buttonPressAudio.Play();
             ChangeLane(1);
         }
         else if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -120,6 +138,7 @@ public class Player : MonoBehaviour
     {
         if (!jumping)
         {
+            jumpAudio.Play();
             jumpStart = transform.position.z;
             anim.SetFloat("JumpSpeed", speed / jumpLength);
             anim.SetBool("Jumping", true);
@@ -131,6 +150,7 @@ public class Player : MonoBehaviour
     {
         if(!jumping && !sliding)
         {
+            slideAudio.Play();
             slideStart = transform.position.z;
             anim.SetFloat("JumpSpeed", speed / slideLength);
             anim.SetBool("Sliding", true);
@@ -145,6 +165,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Reward"))
         {
+            fishBoneAudio.Play();
             fishBone++;
             uiManagement.UpdateReward(fishBone);
             other.transform.parent.gameObject.SetActive(false);
@@ -160,12 +181,14 @@ public class Player : MonoBehaviour
             speed = 0;
             if (currentLife <= 0)
             {
+                deadAudio.Play();
                 speed = 0;
                 anim.SetBool("Dead", true);
                 uiManagement.gameOverPanel.SetActive(true);
             }
             else
             {
+                hurtAudio.Play();
                 StartCoroutine(InvincibleTimer(invincibleTime)); 
             }
         }
@@ -208,6 +231,7 @@ public class Player : MonoBehaviour
 
     public void IncreaseSpeed()
     {
+        powerUpSound.Play();
         speed *= 1.5f;
         if (speed >= maxSpeed)
             speed = maxSpeed;
