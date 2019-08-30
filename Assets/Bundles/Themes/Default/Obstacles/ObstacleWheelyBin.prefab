@@ -33,7 +33,7 @@ Transform:
   - {fileID: 4000013779182092}
   m_Father: {fileID: 4000012503011596}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -0, y: 0, z: -0}
 --- !u!33 &33000013923427984
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 7181594605220465531}
   - component: {fileID: 4472663753188108899}
   - component: {fileID: 1625005574576086577}
+  - component: {fileID: 1760983263418306281}
   m_Layer: 9
   m_Name: ObstacleWheelyBin
   m_TagString: Obstacle
@@ -184,7 +185,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000013234899880}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013203283056}
@@ -324,6 +325,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!111 &1760983263418306281
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013234899880}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 89db83d228927234ab3737e12e64660e, type: 3}
+  m_Animations:
+  - {fileID: 7400000, guid: 89db83d228927234ab3737e12e64660e, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!1 &1000013839073736
 GameObject:
   m_ObjectHideFlags: 0
