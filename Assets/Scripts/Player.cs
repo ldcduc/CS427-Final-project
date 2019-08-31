@@ -29,8 +29,13 @@ public class Player : MonoBehaviour
     private bool invincible = false;
     static int blinkingValue;
     private UIManagement uiManagement;
-    private int fishBone;
-    private float score;
+    [HideInInspector]
+    public int fishBone;
+    [HideInInspector]
+    public float score;
+
+    private bool canMove;
+
     private AudioSource jumpAudio;
     private AudioSource hurtAudio;
     private AudioSource deadAudio;
@@ -43,6 +48,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canMove = true;
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
         boxCollider = GetComponent<BoxCollider>();
@@ -52,6 +58,7 @@ public class Player : MonoBehaviour
         speed = minSpeed;
         blinkingValue = Shader.PropertyToID("_BlinkingValue");
         uiManagement = FindObjectOfType<UIManagement>();
+        GameManager.gm.StartMissions();
         sounds = GetComponents<AudioSource>();
         jumpAudio = sounds[0];
         hurtAudio = sounds[1];
@@ -65,6 +72,9 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canMove)
+            return;
+
         score += Time.deltaTime * speed;
         uiManagement.UpdateScore((int)score);
 
@@ -175,6 +185,7 @@ public class Player : MonoBehaviour
             return; 
         if (other.CompareTag("Obstacle"))
         {
+            canMove = false;
             currentLife--;
             uiManagement.UpdateHealth(currentLife);
             anim.SetTrigger("Hit");
@@ -185,13 +196,20 @@ public class Player : MonoBehaviour
                 speed = 0;
                 anim.SetBool("Dead", true);
                 uiManagement.gameOverPanel.SetActive(true);
+                Invoke("CallMenu", 2f);
             }
             else
             {
                 hurtAudio.Play();
+                Invoke("CanMove", 0.75f);
                 StartCoroutine(InvincibleTimer(invincibleTime)); 
             }
         }
+    }
+
+    void CanMove()
+    {
+        canMove = true;
     }
 
     protected IEnumerator InvincibleTimer(float time)
@@ -228,6 +246,12 @@ public class Player : MonoBehaviour
         //Shader.SetGlobalFloat(blinkingValue, 0);
         invincible = false;
     }
+
+    void CallMenu()
+    {
+        GameManager.gm.fishbones += fishBone;
+        GameManager.gm.Endrun();
+    } 
 
     public void IncreaseSpeed()
     {

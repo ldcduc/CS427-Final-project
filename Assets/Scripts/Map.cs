@@ -59,7 +59,7 @@ public class Map : MonoBehaviour
         float minZPos = 10f;
         for (int i = 0; i < newRewards.Count; i++)
         {
-            float maxZPos = minZPos + 10f;
+            float maxZPos = minZPos + 5f;
             float randomZPos = Random.Range(minZPos, maxZPos);
             newRewards[i].transform.localPosition = new Vector3(transform.position.x, transform.position.y, randomZPos);
             newRewards[i].SetActive(true);
@@ -74,7 +74,6 @@ public class Map : MonoBehaviour
         {
             other.GetComponent<Player>().IncreaseSpeed();
             transform.position = new Vector3(0, 0, transform.position.z + 309 * 2);
-            //GenerateMap();
             GenerateMap();
             GenerateReward();
         }
